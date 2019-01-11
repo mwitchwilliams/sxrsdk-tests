@@ -1,0 +1,159 @@
+<X3D>
+    <Scene ar="true">
+        <Viewpoint position='0 0 0'/>
+        <PointLight/>
+        <Background skyColor='.5 .5 .5'/>
+
+
+	<Transform DEF='cone1' translation='2.5 0 -8'>
+        <TouchSensor DEF='ButtonTouch' description='touch to toggle'/>
+		<Shape>
+		  <Appearance>
+		    <!-- Material DEF='myMaterial' diffuseColor='0 1 0'/ -->
+		    <Material diffuseColor='0 1 0'/>
+		  </Appearance>
+		  <Cone/>
+		</Shape>
+	</Transform>
+
+        <Transform DEF='obj4' translation="0 .5 -4">
+	        <Shape>
+	          <Text DEF='MyTextMessage' string='"Font DEF" "Some Text" "Justify=MIDDLE"'>
+	            <FontStyle DEF='fs1' family='Air Americana.ttf' justify='MIDDLE' spacing='2.0'/>
+	          </Text>
+	          <Appearance>
+	            <Material DEF='myMaterial' diffuseColor="1 .25 .25"/>
+	          </Appearance>
+	        </Shape>
+	    </Transform>
+
+
+        <Transform DEF='obj0' translation="0 -2 -5">
+	        <Shape>
+	          <Text DEF='TextMessage0' string='"CHEAP" "SIGN FONT"'>
+	          	   <FontStyle family='"CheapSign.ttf"' size='1.6' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor="1 1 0"/>
+	          </Appearance>
+	        </Shape>
+	    </Transform>
+        <Transform DEF='obj0a' translation="-2 -2 -6" rotation='0 1 0 .4'>
+	        <Shape>
+	          <Text DEF='TextMessage0' string='"CHEAP" "SIGN FONT"'>
+	          	   <FontStyle family='"CheapSign.ttf"' size='1.6' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor="1 .5 .5"/>
+	          </Appearance>
+	        </Shape>
+	    </Transform>
+        <Transform DEF='obj0b' translation="2 -2 -6" rotation='0 1 0 -.4'>
+	        <Shape>
+	          <Text DEF='TextMessage0' string='"CHEAP" "SIGN FONT"'>
+	          	   <FontStyle family='"CheapSign.ttf"' size='1.6' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor=".5 1 .5"/>
+	          </Appearance>
+	        </Shape>
+	    </Transform>
+
+        <Transform  DEF='obj3' translation="-2 -1 -6" rotation="0 1 0 .785">
+	        <Shape>
+	          <Text DEF='TextMessage3' string='"Nanosecond" "Thick"'>
+	          	   <FontStyle family='"nsecthck.ttf"' size='2.2' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor=".5 .5 1"/>
+	          </Appearance>
+	        </Shape>
+        </Transform>
+        <Transform  DEF='obj3' translation="2 -1 -6" rotation="0 1 0 -.785">
+	        <Shape>
+	          <Text DEF='TextMessage3' string='"Nanosecond" "Thick"'>
+	          	   <FontStyle family='"nsecthck.ttf"' size='2.2' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor=".5 1 1"/>
+	          </Appearance>
+	        </Shape>
+        </Transform>
+
+        <Transform DEF='obj2' translation="0 1.5 -5"  rotation="0 1 0 0">
+	        <Shape>
+	          <Text DEF='TextMessage2' string='"Vacation" "Postcard"'>
+	          	   <FontStyle family='"VacationPostcardNF.ttf"' size='1.2' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor="1 1 1"/>
+	          </Appearance>
+	        </Shape>
+        </Transform>
+        <Transform DEF='obj2' translation="2 1.5 -5"  rotation="0 1 0 -.6">
+	        <Shape>
+	          <Text DEF='TextMessage2' string='"Vacation" "Postcard"'>
+	          	   <FontStyle family='"VacationPostcardNF.ttf"' size='1.2' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor=".9 .9 .9"/>
+	          </Appearance>
+	        </Shape>
+        </Transform>
+        <Transform DEF='obj2' translation="-2 1.5 -5"  rotation="0 1 0 .6">
+	        <Shape>
+	          <Text DEF='TextMessage2' string='"Vacation" "Postcard"'>
+	          	   <FontStyle family='"VacationPostcardNF.ttf"' size='1.2' justify='"MIDDLE" "MIDDLE"'/>
+	          </Text>
+	          <Appearance>
+	            <Material diffuseColor=".9 .9 .9"/>
+	          </Appearance>
+	        </Shape>
+        </Transform>
+
+
+	<Transform DEF='ccyl1' translation='-3 0 -7'>
+        <TouchSensor DEF='CylButton' description='touch to toggle'/>
+		<Shape>
+		  <Appearance>
+		    <Material diffuseColor='1 .5 0'/>
+		  </Appearance>
+		  <Cylinder height='1.5'/>
+		</Shape>
+	</Transform>
+
+    <Script DEF='ControlScript'>
+      <field accessType='inputOnly' name='buttonOver' type='SFBool'/>
+      <field accessType='outputOnly' name='myNewText' type='MFString'/>
+
+      <![CDATA[
+      ecmascript:
+      function buttonOver (value)
+      {
+      	myNewText = new MFString("Very LONG New Text");
+      }
+	]]>
+    </Script>
+
+    <ROUTE fromField='isOver' fromNode='ButtonTouch' toField='buttonOver' toNode='ControlScript'/>
+    <ROUTE fromField='myNewText' fromNode='ControlScript' toField='string' toNode='MyTextMessage'/>
+
+
+    <Script DEF='ChgTextScript'>
+      <field accessType='inputOnly' name='buttonOver' type='SFBool'/>
+      <field accessType='outputOnly' name='myNewText' type='MFString'/>
+
+      <![CDATA[
+      ecmascript:
+      function buttonOver (value)
+      {
+      	myNewText = new MFString("Samsung SXR");
+      }
+	]]>
+    </Script>
+
+    <ROUTE fromField='isOver' fromNode='CylButton' toField='buttonOver' toNode='ChgTextScript'/>
+    <ROUTE fromField='myNewText' fromNode='ChgTextScript' toField='string' toNode='MyTextMessage'/>
+
+    </Scene>
+</X3D>

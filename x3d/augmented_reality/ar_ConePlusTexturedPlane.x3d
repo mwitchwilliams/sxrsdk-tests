@@ -1,0 +1,42 @@
+<X3D>
+    <!-- Added 'ar="true"' property to invoke AR mode -->
+    <!-- sets up quad plane in gvr-arcore:SampleHelper createQuadPlane -->
+  <Scene ar="true">
+
+    <Viewpoint position='0 0 0'/>
+
+    <Background skyColor='.3 .3 .4'/>
+    <NavigationInfo headlight='false'/>
+    <DirectionalLight  color='.6 .6 .6'/>
+
+
+      <Transform DEF='OrangeCone' translation='1 2 -6'>
+          <Shape>
+            <Appearance>
+              <Material diffuseColor='1 .5 0'/>
+            </Appearance>
+            <Cone/>
+          </Shape>
+      </Transform>
+
+    <Transform DEF='Plane01' translation='-1 2 -5.5' rotation='0 1 0 0'>
+        <Shape>
+            <Appearance>
+                <Material diffuseColor="1 1 1"/>
+                <ImageTexture url="news_texture_map.jpg" repeatS="TRUE" repeatT="TRUE"/>
+                <TextureTransform center='.5 .5' rotation='0' scale='1 1' translation='0 0'/>
+            </Appearance>
+            <IndexedFaceSet
+                coordIndex='0 1 2 -1    0 3 1 -1'
+                texCoordIndex='0 1 2 -1   0 3 1 -1'
+                normalIndex='0 0 0 -1   0 0 0 -1'
+            >
+                <Coordinate point='-1 -1 0    1 1 0    -1 1 0    1 -1 0' />
+                <TextureCoordinate point='0 0   1 1    0 1   1 0'/>
+                <Normal vector='0 0 1   0 -1 0'/>
+            </IndexedFaceSet>
+        </Shape>
+    </Transform>
+
+    </Scene>
+</X3D>

@@ -1,0 +1,50 @@
+<X3D profile='Immersive' version='3.3' xmlns:xsd='http://www.w3.org/2001/XMLSchema-instance' xsd:noNamespaceSchemaLocation='http://www.web3d.org/specifications/x3d-3.3.xsd'>
+	<Scene>
+      <Viewpoint position='0 0 0'/>
+      <NavigationInfo headlight="false"/>
+      <Background skyColor=".3 .35 .4"/>
+		
+		<Transform DEF="RedBox1" translation="-1.75 1 -5">
+			<Shape>
+				<Box size='.75 .75 .75'/>
+				<Appearance>
+					<Material diffuseColor="1 0 0"/>
+				</Appearance>
+			</Shape>
+		</Transform>
+
+		<Transform DEF="GreenCone" translation="0 0 -5">
+			<Shape>
+				<Cone/>
+				<Appearance>
+					<Material diffuseColor="0 1 0"/>
+				</Appearance>
+			</Shape>
+		</Transform>
+		
+		<Transform DEF="BlueBox2" translation="1.75 -1 -5">
+			<Shape>
+				<Box size='.9 .6 .3'/>
+				<Appearance>
+					<Material diffuseColor="0 0 1"/>
+				</Appearance>
+			</Shape>
+		</Transform>
+
+     <TimeSensor DEF="timer" cycleInterval="20" loop="true"/>
+     <OrientationInterpolator DEF="objRotate" key="0 0.5 1" keyValue="1 0 0 0   1 0 0 3.14    1 0 0 6.28"/>
+     <ROUTE fromNode="timer" fromField ="fraction_changed" toNode="objRotate" toField="set_fraction"/>
+     <ROUTE fromNode="objRotate" fromField ="value_changed" toNode="GreenCone" toField="set_rotation"/>
+
+
+     <TimeSensor DEF="boxTimer" cycleInterval="17" loop="true"/>
+     <OrientationInterpolator DEF="boxRotate" key="0 0.5 1" keyValue="0 1 0 0   0 1 0 3.14    0 1 0 6.28"/>
+     <ROUTE fromNode="boxTimer" fromField ="fraction_changed" toNode="boxRotate" toField="set_fraction"/>
+     <ROUTE fromNode="boxRotate" fromField ="value_changed" toNode="RedBox1" toField="set_rotation"/>
+
+     <OrientationInterpolator DEF="box2Rotate" key="0 .5 0.49  .51 .75 1" keyValue="0 1 0 0   0 1 0 -3.14    0 1 0 -6.28     0 1 0 0   0 1 0 -3.14    0 1 0 -6.28"/>
+     <ROUTE fromNode="boxTimer" fromField ="fraction_changed" toNode="box2Rotate" toField="set_fraction"/>
+     <ROUTE fromNode="box2Rotate" fromField ="value_changed" toNode="BlueBox2" toField="set_rotation"/>
+
+	</Scene>
+</X3D>

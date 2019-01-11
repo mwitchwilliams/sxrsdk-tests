@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.3//EN" "http://www.web3d.org/specifications/x3d-3.3.dtd">
+<X3D profile='Immersive' version='3.3' xmlns:xsd='http://www.w3.org/2001/XMLSchema-instance' xsd:noNamespaceSchemaLocation='http://www.web3d.org/specifications/x3d-3.3.xsd'>
+  <Scene>
+  
+    <Viewpoint position='0 0 0'/>
+    <!-- DirectionalLight/ -->
+
+      <Transform DEF='Interactive Sphere' translation='-1 .25 -6'>
+        <TouchSensor DEF='ButtonTouch' description='touch to toggle'/>
+        <Shape>
+          <Appearance>
+            <Material DEF='sphereColor' diffuseColor='1 1 1'/>
+          </Appearance>
+          <Sphere radius='.7'/>
+        </Shape>
+      </Transform>
+
+		<Transform DEF="GreenCone" translation="1 0 -5">
+			<Shape>
+				<Cone height='1' bottomRadius='.4'/>
+				<Appearance>
+					<Material diffuseColor="0 1 0"/>
+				</Appearance>
+			</Shape>
+		</Transform>
+
+     <TimeSensor DEF="timer" cycleInterval="9" loop="true"/>
+     <OrientationInterpolator DEF="objRotate" key="0 0.5 1" keyValue="1 0 0 0   1 0 0 3.14    1 0 0 6.28"/>
+     <ROUTE fromNode="timer" fromField ="fraction_changed" toNode="objRotate" toField="set_fraction"/>
+     <ROUTE fromNode="objRotate" fromField ="value_changed" toNode="GreenCone" toField="set_rotation"/>
+
+
+    <Script DEF='ControlScript'>
+      <field accessType='inputOnly' name='buttonOver' type='SFBool'/>
+      <field accessType='outputOnly' name='dColor' type='SFColor'/>
+
+      <![CDATA[
+      ecmascript:
+      function buttonOver (value)
+      {
+      	if (value) dColor = new SFColor (1, 1, 0.2); // yellow
+      	else dColor = new SFColor (.5, .5, 1); // blue-ish
+      }
+	]]>
+    </Script>
+
+    <ROUTE fromField='isActive' fromNode='ButtonTouch' toField='buttonOver' toNode='ControlScript'/>
+    <ROUTE fromField='dColor' fromNode='ControlScript' toField='diffuseColor' toNode='sphereColor'/>
+  </Scene>
+</X3D>

@@ -1,0 +1,225 @@
+<X3D>
+  <Scene ar="true">
+    <!-- Added 'camera' or 'ar' property with 'false' being default -->
+    <!-- sets up quad plane in gvr-arcore:SampleHelper createQuadPlane -->
+    <!-- Add TouchSensor to the quadPlane -->
+
+    <Viewpoint position='0 0 0'/>
+
+    <Background skyColor='.3 .3 .4'/>
+    <NavigationInfo headlight='false'/>
+    <DirectionalLight DEF="light 1" direction='0 0 -1'/>
+    <DirectionalLight DEF="light 2, pos Z" direction='0 0 1' color='.5 .5 .25'/>
+
+
+    <Transform DEF='ARitem1_Plane' translation='-2.5 2 -4.5'>
+        <TouchSensor DEF='ARitem1Touch'/>
+        <Shape>
+            <Appearance>
+                <Material DEF="ARitem1Mat" diffuseColor="1 1 1"/>
+                <ImageTexture url="ARitem1.png" repeatS="TRUE" repeatT="TRUE"/>
+            </Appearance>
+            <IndexedFaceSet
+                coordIndex='0 1 2 -1    0 3 1 -1'
+                texCoordIndex='0 1 2 -1   0 3 1 -1'
+                normalIndex='0 0 0 -1   0 0 0 -1'
+            >
+                <Coordinate point='-1 -1 0    1 1 0    -1 1 0    1 -1 0' />
+                <TextureCoordinate point='0 0   1 1    0 1   1 0'/>
+                <Normal vector='0 0 1   0 -1 0'/>
+            </IndexedFaceSet>
+        </Shape>
+    </Transform>
+
+    <Transform DEF='ARitem2_Plane' translation='0 2 -4.5'>
+        <TouchSensor DEF='ARitem2Touch'/>
+        <Shape>
+            <Appearance>
+                <Material DEF="ARitem2Mat" diffuseColor=".5 .5 .5"/>
+                <ImageTexture url="ARitem2.png" repeatS="TRUE" repeatT="TRUE"/>
+            </Appearance>
+            <IndexedFaceSet
+                coordIndex='0 1 2 -1    0 3 1 -1'
+                texCoordIndex='0 1 2 -1   0 3 1 -1'
+                normalIndex='0 0 0 -1   0 0 0 -1'
+            >
+                <Coordinate point='-1 -1 0    1 1 0    -1 1 0    1 -1 0' />
+                <TextureCoordinate point='0 0   1 1    0 1   1 0'/>
+                <Normal vector='0 0 1   0 -1 0'/>
+            </IndexedFaceSet>
+        </Shape>
+    </Transform>
+
+
+    <Transform DEF='ARitem3_Plane' translation='2.5 2 -4.5'>
+        <TouchSensor DEF='ARitem3Touch'/>
+        <Shape>
+            <Appearance>
+                <Material DEF="ARitem3Mat" diffuseColor=".5 .5 .5"/>
+                <ImageTexture url="ARitem3.png" repeatS="TRUE" repeatT="TRUE"/>
+            </Appearance>
+            <IndexedFaceSet
+                coordIndex='0 1 2 -1    0 3 1 -1'
+                texCoordIndex='0 1 2 -1   0 3 1 -1'
+                normalIndex='0 0 0 -1   0 0 0 -1'
+            >
+                <Coordinate point='-1 -1 0    1 1 0    -1 1 0    1 -1 0' />
+                <TextureCoordinate point='0 0   1 1    0 1   1 0'/>
+                <Normal vector='0 0 1   0 -1 0'/>
+            </IndexedFaceSet>
+        </Shape>
+    </Transform>
+
+
+
+      <Transform DEF='markerConeLeft' translation='-5 0 0' scale='.5 .5 .5'>
+          <Shape>
+            <Appearance>
+              <Material diffuseColor='.8 .4 0'/>
+            </Appearance>
+            <Cone/>
+          </Shape>
+      </Transform>
+
+      <Transform DEF='markerConeForward' translation='0 0 -5' scale='.5 .5 .5'>
+          <Shape>
+            <Appearance>
+              <Material diffuseColor='0 .8 .4'/>
+            </Appearance>
+            <Cone/>
+          </Shape>
+      </Transform>
+
+      <Transform DEF='markerConeRight' translation='5 0 0' scale='.5 .5 .5'>
+          <Shape>
+            <Appearance>
+              <Material diffuseColor='0 .4 .8'/>
+            </Appearance>
+            <Cone/>
+          </Shape>
+      </Transform>
+
+  <Inline DEF="inlineItem1" url="skull.x3d" load="true"/>
+  <Inline DEF="inlineItem2" url="ar_JavaScriptLightColors.x3d" load="false"/>
+  <Inline DEF="inlineItem3" url="gear.x3d" load="false"/>
+
+
+        <Script DEF='ARitem1Script'>
+          <field accessType='inputOnly' name='buttonOverARitem1' type='SFBool'/>
+          <field accessType='outputOnly' name='materialARitem1' type='SFColor'/>
+          <field accessType='outputOnly' name='materialARitem2' type='SFColor'/>
+          <field accessType='outputOnly' name='materialARitem3' type='SFColor'/>
+
+          <field accessType='inputOutput' name='inlineItem1Load' type='SFBool'/>
+          <field accessType='outputOnly' name='inlineItem2Load' type='SFBool'/>
+          <field accessType='outputOnly' name='inlineItem3Load' type='SFBool'/>
+
+          <![CDATA[
+          ecmascript:
+          function buttonOverARitem1(value)
+          {
+          	if (value) {
+          	    materialARitem1 = new SFColor (1, 1, 1);
+          	    materialARitem2 = new SFColor (.4, .4, .4);
+          	    materialARitem3 = new SFColor (.4, .4, .4);
+
+          	    bool = inlineItem1Load.getValue();
+          	    inlineItem1Load = new SFBool( true );
+
+          	    inlineItem2Load = new SFBool( false );
+          	    inlineItem3Load = new SFBool( false );
+          	}
+          	else {
+          	    materialARitem1 = new SFColor (.4, .4, .4);
+          	}
+          }
+    	]]>
+        </Script>
+
+        <ROUTE fromField='isActive' fromNode='ARitem1Touch' toField='buttonOverARitem1' toNode='ARitem1Script'/>
+        <ROUTE fromField='load' fromNode='inlineItem1' toField='inlineItem1Load' toNode='ARitem1Script'/>
+        <ROUTE fromField='inlineItem1Load' fromNode='ARitem1Script' toField='load' toNode='inlineItem1'/>
+        <ROUTE fromField='inlineItem2Load' fromNode='ARitem1Script' toField='load' toNode='inlineItem2'/>
+        <ROUTE fromField='inlineItem3Load' fromNode='ARitem1Script' toField='load' toNode='inlineItem3'/>
+
+        <ROUTE fromField='materialARitem1' fromNode='ARitem1Script' toField='diffuseColor' toNode='ARitem1Mat'/>
+        <ROUTE fromField='materialARitem2' fromNode='ARitem1Script' toField='diffuseColor' toNode='ARitem2Mat'/>
+        <ROUTE fromField='materialARitem3' fromNode='ARitem1Script' toField='diffuseColor' toNode='ARitem3Mat'/>
+
+
+        <Script DEF='ARitem2Script'>
+          <field accessType='inputOnly' name='buttonOverARitem2' type='SFBool'/>
+          <field accessType='outputOnly' name='materialARitem1' type='SFColor'/>
+          <field accessType='outputOnly' name='materialARitem2' type='SFColor'/>
+          <field accessType='outputOnly' name='materialARitem3' type='SFColor'/>
+          <field accessType='inputOutput' name='inlineItem1Load' type='SFBool'/>
+          <field accessType='inputOutput' name='inlineItem2Load' type='SFBool'/>
+          <field accessType='inputOutput' name='inlineItem3Load' type='SFBool'/>
+
+          <![CDATA[
+          ecmascript:
+          function buttonOverARitem2(value)
+          {
+          	if (value) {
+          	    materialARitem1 = new SFColor (.4, .4, .4);
+          	    materialARitem2 = new SFColor (1, 1, 1);
+          	    materialARitem3 = new SFColor (.4, .4, .4);
+          	    inlineItem1Load.setValue( false );
+          	    inlineItem2Load.setValue( true );
+          	    inlineItem3Load.setValue( false );
+          	}
+          	else {
+          	    materialARitem2 = new SFColor (.4, .4, .4);
+          	}
+          }
+    	]]>
+        </Script>
+        <ROUTE fromField='isActive' fromNode='ARitem2Touch' toField='buttonOverARitem2' toNode='ARitem2Script'/>
+        <ROUTE fromField='materialARitem2' fromNode='ARitem2Script' toField='diffuseColor' toNode='ARitem2Mat'/>
+        <ROUTE fromField='materialARitem1' fromNode='ARitem2Script' toField='diffuseColor' toNode='ARitem1Mat'/>
+        <ROUTE fromField='materialARitem3' fromNode='ARitem2Script' toField='diffuseColor' toNode='ARitem3Mat'/>
+
+        <ROUTE fromField='inlineItem1Load' fromNode='ARitem2Script' toField='load' toNode='inlineItem1'/>
+        <ROUTE fromField='inlineItem2Load' fromNode='ARitem2Script' toField='load' toNode='inlineItem2'/>
+        <ROUTE fromField='inlineItem3Load' fromNode='ARitem2Script' toField='load' toNode='inlineItem3'/>
+
+
+        <Script DEF='ARitem3Script'>
+          <field accessType='inputOnly' name='buttonOverARitem3' type='SFBool'/>
+          <field accessType='outputOnly' name='materialARitem1' type='SFColor'/>
+          <field accessType='outputOnly' name='materialARitem2' type='SFColor'/>
+          <field accessType='outputOnly' name='materialARitem3' type='SFColor'/>
+
+          <field accessType='inputOutput' name='inlineItem1Load' type='SFBool'/>
+          <field accessType='inputOutput' name='inlineItem2Load' type='SFBool'/>
+          <field accessType='inputOutput' name='inlineItem3Load' type='SFBool'/>
+
+          <![CDATA[
+          ecmascript:
+          function buttonOverARitem3(value)
+          {
+          	if (value) {
+          	    materialARitem1 = new SFColor (.4, .4, .4);
+          	    materialARitem2 = new SFColor (.4, .4, .4);
+          	    materialARitem3 = new SFColor (1, 1, 1);
+          	    inlineItem1Load.setValue( false );
+          	    inlineItem2Load.setValue( false );
+          	    inlineItem3Load.setValue( true );
+          	}
+          	else {
+          	    materialARitem3 = new SFColor (.4, .4, .4);
+          	}
+          }
+    	]]>
+        </Script>
+        <ROUTE fromField='isActive' fromNode='ARitem3Touch' toField='buttonOverARitem3' toNode='ARitem3Script'/>
+        <ROUTE fromField='materialARitem1' fromNode='ARitem3Script' toField='diffuseColor' toNode='ARitem1Mat'/>
+        <ROUTE fromField='materialARitem2' fromNode='ARitem3Script' toField='diffuseColor' toNode='ARitem2Mat'/>
+        <ROUTE fromField='materialARitem3' fromNode='ARitem3Script' toField='diffuseColor' toNode='ARitem3Mat'/>
+
+        <ROUTE fromField='inlineItem1Load' fromNode='ARitem3Script' toField='load' toNode='inlineItem1'/>
+        <ROUTE fromField='inlineItem2Load' fromNode='ARitem3Script' toField='load' toNode='inlineItem2'/>
+        <ROUTE fromField='inlineItem3Load' fromNode='ARitem3Script' toField='load' toNode='inlineItem3'/>
+
+    </Scene>
+</X3D>
